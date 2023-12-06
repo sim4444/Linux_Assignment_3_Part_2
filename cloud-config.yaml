@@ -1,17 +1,16 @@
 #cloud-config
 # You will need to edit this file before creating your new servers
 users:
-  - name: example
-    primary_group: example
+  - name: web
+    primary_group: web
     groups: sudo
     shell: /bin/bash
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh-authorized-keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFtY97a9G5msg0oMa/qUBP2gMNFcuexh7X1JRUgM9fin email@example.com
-
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDKKV0lMYZEq/XFTa5goGUqUwUa5g6fcgxGlx90xWsBU samcanadian44@gmail.com
 packages:
-  - ripgrep
-  - rsync
+  - nginx
+  - ufw
 
 runcmd:
   - sed -i 's/^#\(Storage=auto\)/\1/' /etc/systemd/journald.conf
