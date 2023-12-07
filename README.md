@@ -122,13 +122,52 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
     sudo cp ./hello.conf /etc/nginx/sites-available/
     sudo ln /etc/nginx/sites-available/hello.conf /etc/nginx/sites-enabled/
 ```
-
-- I copied the binary file hello-server from home directory into /var/www using command:
+- Now, I restarted nginx service and checked status with commands;
+``` bash
+    sudo systemctl restart nginx.service
+    sudo systemctl status nginx.service
+```
+At this point, reverse proxy server with nginx is created for backend and nginx service is running.
+    
+- Next, I copied the binary file hello-server from home directory into /var/www using command:
 ``` bash
     sudo cp ./hello-server /var/www
 ```
--I made directory named hello-server in /var/log to store backend logs here:
-```
+- I made directory named hello-server in /var/log to store backend logs here:
+``` bash
     mkdir hello-server
 ```
+- Now, I copied file hello-server.service from home directory to /etc/systemd/system using:
+``` bash
+    sudo cp ~/hello-server.service /etc/systemd/system
+```
+- To start the backend, I edited the unit file hello-server.service by adding section [Install] and adding ExecStart by directing to file path as /var/www/hello-server. This hello-server is binary file. File hello-server.service is:
+``` bash
+[Unit]
+Description=A web api that says hello
+After=network-online.target
+Wants=network-online.target
 
+[Service]
+Type=simple
+User=www-data
+Restart=on-failure
+ExecStart=/var/www/hello-server
+StandardOutput=append:/var/log/hello-server/backend.log
+StandardError=append:/var/log/hello-server/backend.log
+SyslogIdentifier=hello-server
+
+[Install]
+WantedBy=multi-user.target
+```
+
+- I started hello-server.service and checked status with below commands:
+``` bash
+    sudo systemctl daemon-reload
+    sudo systemctl start hello-server.service
+    sudo systemctl status hello-server.service
+```
+- I created a load balancer in digital ocean connected to both serveres web1 and web2( by tagging web) and used the IP address of load balancer.
+- Now, I used postman to check the three curl commands using the load balancer IP. The commands are running. The postman gives status 200 OK on Get request "http://IP_address/hey" and showing the frontend part 'hey there' for binary and also, the POST request http://IP_address/echo echoes the message we give. The get request for http://IP_address/ gives the "Hello, World" in preview which means our backend is accurately configured.
+
+      
