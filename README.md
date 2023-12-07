@@ -14,7 +14,7 @@ The included backend server runs on port 8080, 127.0.0.1:8080
 - example curl commands for testing your server, curl.md
 # linux_part2_assignment_3
 
-To begin with, I created 2 servers(named - web 1 and web2) with regular user(web) on digital ocean. The regular user is able to connect to the server via ssh, have bash set as their login shell and is member of the sudo group. Below are the steps to augment my web server by incorporating various components such as a backend and a load balancer: 
+To begin with, I created 2 droplets(named - web 1 and web2) with regular user(web) on digital ocean. We will setup these servers which are made by creating droplets web1 and web2. The regular user is able to connect to the server via ssh, have bash set as their login shell and is member of the sudo group. Below are the steps to augment my web server by incorporating various components such as a backend and a load balancer: 
 
 - I cloned the provided files into directory of my host machine(my laptop).
 
@@ -35,11 +35,17 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
     systemctl restart systemd-journald
 ```
 
--  I uploaded the required files to the web servers web1 and web2 using sftp(Secure File Transfer Protocol) in my laptop's terminal.
+-  I uploaded the required files to the web droplets(or servers here) web1 and web2 using sftp(Secure File Transfer Protocol) in my laptop's terminal.
 -  I installed nginx and ufw with commands below:
 ``` bash
     sudo apt update
     sudo apt install nginx
     sudo apt install ufw
 ```
-
+- I ran below commands to enable firewall on both droplets web1 and web2. Firstly SSh is allowed and then ufw is enabled and then checked status for confirmation. These below commands should be run in order:
+``` bash
+    sudo ufw allow SSH
+    sudo ufw allow http
+    sudo ufw enable
+    sudo ufw status verbose
+```
