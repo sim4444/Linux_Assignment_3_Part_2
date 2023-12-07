@@ -18,6 +18,7 @@ To begin with, I created 2 droplets(named - web 1 and web2) with regular user(we
 
 - I cloned the provided files into directory of my host machine(my laptop).
 
+## Setting up a server with a cloud-config script:
 - When I edited file "cloud-config.yaml", I made name and primary_group as "web", added my public SSH key, shell is /bin/bash to make sure that regular user "web' has bash set as their login shell. Groups is sudo to make web user a member of the sudo group.
 
 The below command in cloud-config.yaml with PermitRootLogin no in the /etc/ssh/sshd_config file disables root access via SSH:
@@ -34,7 +35,7 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
 ``` bash
     systemctl restart systemd-journald
 ```
-
+## Firewall, UFW(uncomplicated firewall):
 -  I uploaded the required files to the web droplets(or servers here) web1 and web2 using sftp(Secure File Transfer Protocol) in my laptop's terminal.
 -  I installed nginx and ufw with commands below:
 ``` bash
@@ -49,3 +50,4 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
     sudo ufw enable
     sudo ufw status verbose
 ```
+## Creating a reverse proxy server with nginx:
