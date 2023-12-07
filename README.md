@@ -36,18 +36,50 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
     systemctl restart systemd-journald
 ```
 ## Firewall, UFW(uncomplicated firewall):
--  I uploaded the required files to the web droplets(or servers here) web1 and web2 using sftp(Secure File Transfer Protocol) in my laptop's terminal.
+-  I uploaded the required files to the web servers web1 and web2 using sftp(Secure File Transfer Protocol) in my laptop's terminal.
 -  I installed nginx and ufw with commands below:
 ``` bash
     sudo apt update
     sudo apt install nginx
     sudo apt install ufw
 ```
-- I ran below commands to enable firewall on both droplets web1 and web2. Firstly SSh is allowed and then ufw is enabled and then checked status for confirmation. These below commands should be run in order:
+- I ran below commands to enable firewall on both servers web1 and web2. Firstly SSh is allowed and then ufw is enabled and then checked status for confirmation. These below commands should be run in order:
 ``` bash
     sudo ufw allow SSH
     sudo ufw allow http
     sudo ufw enable
     sudo ufw status verbose
 ```
-## Creating a reverse proxy server with nginx:
+## Creating frontend Html and Creating a reverse proxy server with nginx:
+- I made directory my_site in directory /var/www. Inside directory path /var/wwwm/y_site/ ; I create file  index.html (frontend). I added below hmtl content in this file:
+``` html
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2420</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello, Galaxy!</h1>
+</body>
+</html>
+```
+- I had copied the uploaed file named hello.conf from home directory to /etc/nginx/sites-available/ and made a symbolic link of hello.conf in /etc/nginx/sites-enabled/ using below commands:
+``` bash
+    sudo cp ./hello.conf /etc/nginx/sites-available/
+    sudo ln /etc/nginx/sites-available/hello.conf /etc/nginx/sites-enabled/
+```
+
