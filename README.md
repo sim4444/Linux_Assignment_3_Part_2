@@ -50,7 +50,7 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
     sudo ufw enable
     sudo ufw status verbose
 ```
-## Creating frontend Html and Creating a reverse proxy server(for backend) with nginx:
+## Creating frontend Html and Creating a reverse proxy server with nginx:
 - For frontend; I made directory my_site in directory /var/www. Inside directory path /var/www/my_site/ ; I create file  index.html (frontend). I added below hmtl content in this file:
 ``` html
 <!DOCTYPE html>
@@ -117,7 +117,7 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 ```
-- I had copied the configuration file hello.conf from home directory to /etc/nginx/sites-available/ and made a symbolic link of hello.conf in /etc/nginx/sites-enabled/ using below commands:
+- For backend, I had copied the configuration file hello.conf from home directory to /etc/nginx/sites-available/ and made a symbolic link of hello.conf in /etc/nginx/sites-enabled/ using below commands:
 ``` bash
     sudo cp ./hello.conf /etc/nginx/sites-available/
     sudo ln /etc/nginx/sites-available/hello.conf /etc/nginx/sites-enabled/
