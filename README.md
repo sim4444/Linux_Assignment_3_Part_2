@@ -169,4 +169,4 @@ WantedBy=multi-user.target
 ```
 - I created a load balancer in digital ocean connected to both serveres web1 and web2( by tagging web) and used the IP address of load balancer.
 - Now, I used postman to check the three curl commands using the load balancer IP. The commands are running. The postman gives status 200 OK on Get request "http://IP_address/hey" and showing the frontend part 'hey there' for binary and also, the POST request http://IP_address/echo echoes the message we give. The get request for http://IP_address/ gives the "Hello, World" in preview which means our backend is accurately configured.
-- At the end, I checked backend-log in /var/www/hello-server directory path and it contains the required logs.
+- At the end, I checked file backend.log in /var/log/hello-server directory path and it contains the required logs.
