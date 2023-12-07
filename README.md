@@ -50,8 +50,8 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
     sudo ufw enable
     sudo ufw status verbose
 ```
-## Creating frontend Html and Creating a reverse proxy server with nginx:
-- I made directory my_site in directory /var/www. Inside directory path /var/wwwm/y_site/ ; I create file  index.html (frontend). I added below hmtl content in this file:
+## Creating frontend Html and Creating a reverse proxy server(for backend) with nginx:
+- For frontend; I made directory my_site in directory /var/www. Inside directory path /var/www/my_site/ ; I create file  index.html (frontend). I added below hmtl content in this file:
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -77,9 +77,58 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
 </body>
 </html>
 ```
-- I had copied the uploaed file named hello.conf from home directory to /etc/nginx/sites-available/ and made a symbolic link of hello.conf in /etc/nginx/sites-enabled/ using below commands:
+- I made index.html executable using command:
+``` bash
+    sudo chmod +x index.html
+```
+- For backend; I created a proxy server with nginx by adding a new location block and a 'proxy_pass' directive to specify where the traffic is being served from. I edited the configuration file named hello.conf as below:
+``` bash
+    server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/my_site;
+
+    index index.html;
+
+    server_name _;
+
+    location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ =404;
+    }
+
+    location /hey {
+        # Define the reverse proxy settings
+        proxy_pass http://127.0.0.8080/hey;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /echo {
+        # Define the reverse proxy settings
+        proxy_pass http://127.0.0.8080/echo;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+```
+- I had copied the configuration file hello.conf from home directory to /etc/nginx/sites-available/ and made a symbolic link of hello.conf in /etc/nginx/sites-enabled/ using below commands:
 ``` bash
     sudo cp ./hello.conf /etc/nginx/sites-available/
     sudo ln /etc/nginx/sites-available/hello.conf /etc/nginx/sites-enabled/
+```
+
+- I copied the binary file hello-server from home directory into /var/www using command:
+``` bash
+    sudo cp ./hello-server /var/www
+```
+-I made directory named hello-server in /var/log to store backend logs here:
+```
+    mkdir hello-server
 ```
 
