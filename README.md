@@ -53,7 +53,7 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
 ## Creating frontend Html and Creating a reverse proxy server with nginx:
 - I made directory my_site in directory /var/www. Inside directory path /var/wwwm/y_site/ ; I create file  index.html (frontend). I added below hmtl content in this file:
 ``` html
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
