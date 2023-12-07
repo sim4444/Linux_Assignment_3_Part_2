@@ -35,4 +35,11 @@ The below command in cloud-config.yaml restarts the systemd-journald service to 
     systemctl restart systemd-journald
 ```
 
--  First thing I did is to upload those files to the web servers.
+-  I uploaded the required files to the web servers web1 and web2 using sftp(Secure File Transfer Protocol) in my laptop's terminal.
+-  I installed nginx and ufw with commands below:
+``` bash
+    sudo apt update
+    sudo apt install nginx
+    sudo apt install ufw
+```
+
