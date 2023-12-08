@@ -1,3 +1,4 @@
+
 # as3p2-starter-f23
 
 You will have to edit some of these files to get your web servers working.
@@ -14,6 +15,14 @@ The included backend server runs on port 8080, 127.0.0.1:8080
 - example curl commands for testing your server, curl.md
 # linux_part2_assignment_3
 
+## Main Directories for all the important files:
+- directory /var/www/my_site contains index.html
+- /etc/nginx/sites-available contains file hello.conf
+- /etc/systemd/system contains hello-server.service
+- /var/www contains binary hello-server
+- /var/log/hello-server contains backend.log
+  
+## Explaining the server setup and load balancer
 To begin with, I created 2 droplets(named - web 1 and web2) with regular user(web) on digital ocean. We will setup these servers which are made by creating droplets web1 and web2. The regular user is able to connect to the server via ssh, have bash set as their login shell and is member of the sudo group. Below are the steps to augment my web server by incorporating various components such as a backend and a load balancer: 
 
 - I cloned the provided files into directory of my host machine(my laptop).
